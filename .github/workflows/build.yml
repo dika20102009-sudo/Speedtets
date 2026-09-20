@@ -1,0 +1,34 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ambil repository
+        uses: actions/checkout@v4
+
+      - name: Siapkan Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Siapkan Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build APK
+        run: |
+          echo "Persiapan build APK..."
+          mkdir -p build-output
+          cp speed.py build-output/
+          echo "speed.py berhasil disiapkan."
+
+      - name: Simpan hasil
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpeedTest-files
+          path: build-output/
